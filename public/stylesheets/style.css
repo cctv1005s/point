@@ -1,8 +1,90 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,
+form,fieldset,input,textarea,p,blockquote,th,td {
+padding: 0;
+margin: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+fieldset,img {
+border: 0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+font-weight: normal;
+font-style: normal;
+}
+ol,ul {
+list-style: none;
+}
+caption,th {
+text-align: left;
+}
+h1,h2,h3,h4,h5,h6 {
+font-weight: normal;
+font-size: 100%;
+}
+q:before,q:after {
+content:'';
+}
+abbr,acronym { border: 0;
 }
 
-a {
-  color: #00B7FF;
+
+body{
+    background: #2a2941;
+    color: white;
+    width: 100%;
+}
+
+.box{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items:center;
+    height: 400px;
+}
+
+.item{
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    text-align: center;
+    animation-duration: 1s;
+    margin: 10px;
+
+}
+
+.head-icon{
+    width: 150px;
+    border-radius: 100%;
+    height: 150px;
+}
+
+.name{
+    font-size: 25px;
+}
+
+#start-btn{
+    border: 1px solid yellow;
+    background: rgb(255,237,91);
+    width: 150px;
+    display: block;
+    height: 50px;
+    margin: 0 auto;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    bottom: 100px;
+    text-align: center;
+}
+
+.count-down,.finish{
+    font-size: 40px;
+    font-weight: bold;
+    font-family: -webkit-pictograph;
 }

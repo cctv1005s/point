@@ -1,5 +1,55 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  #app
+    .box
+      template(v-for="s in students")
+        .item.zoomIn(v-if="s.state == 1")
+          img.head-icon(:src="s.headicon")
+          .info 
+            p.name {{s.name}}
+            p {{s.id}}
+      
+    .footer
+      button#start-btn(v-on:click="start" v-if="state=='start'") 开始点名
+      .count-down(v-if="state=='progress'") {{count}}
+      .finish(v-if="state=='finish'") 点名结束
+
+block script
+  script(src="https://unpkg.com/vue/dist/vue.js")
+  script.
+    new Vue({
+      el:'#app',
+      data:{
+        state:'start',
+        students:[],
+        count:10,
+        clock:null
+      },
+      created:function(){
+        this.fetchData();
+      },
+      methods:{
+        start:function(e){
+          this.state = 'progress';
+          this.clock = setInterval(()=>{
+            this.count--;
+            if(this.count <= 0){
+              clearInterval(this.clock);
+              this.state = 'finish';
+            }
+          },1000);
+        },
+        fetchData:function(){
+          var vm = this;
+          fetch('/students')
+          .then(res=>{
+            return res.json();
+          })
+          .then(d=>{
+            vm.students = d.students;
+          });
+        }
+      }
+    });
+ 

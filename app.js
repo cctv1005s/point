@@ -32,4 +32,7 @@ app.use(require('koa-static')(__dirname + '/public'));
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
 
+app.listen(3400);
+console.log('app listen on 3400');
+
 module.exports = app;
