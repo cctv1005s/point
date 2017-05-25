@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    .box(v-bind:class="{active: state=='finish'}")
+        .item.zoomIn
+            img.head-icon(src=user.headicon)
+            .info 
+            p.name=user.name
+            p=user.id
+    .footer
+        button#start-btn 签到
+
+block script
+    script.
+        var b = document.getElementById('start-btn');
+        b.onclick = function(e){
+            var reg = location.pathname.match(/\/q\/(.*)/);
+            var id = reg[1];
+            fetch(`/point/${id}`)
+            .then(()=>{
+                swal("签到成功", "", "success")
+            });
+        }
+
+        

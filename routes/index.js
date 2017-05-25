@@ -15,16 +15,12 @@ var pool = mysql.createPool(options);
 var p = wrapper(pool);
 
 router.get('/', function *(next) {
-  yield this.render('index', {
-    title: 'Hello World Koa!'
-  });
-});
-
-router.get('/foo', function *(next) {
+  yield p.query(`UPDATE student SET state='0'`);
   yield this.render('index', {
     title: '点名系统Demo'
   });
 });
+
 
 router.get('/students',function*(next){
   var r = yield p.query('SELECT * FROM `student` LIMIT 0, 1000');
@@ -34,11 +30,16 @@ router.get('/students',function*(next){
 router.get('/point/:id',function*(next){
   var id = this.params.id;
   yield p.query(`UPDATE student SET state='1' WHERE (id='${id}')`);
-  this.body = {success:ture};
+  this.body = {success:true};
 });
 
 router.get('/q/:id',function*(next){
-  yield this.render('index');
+  var id = this.params.id;
+  var r = yield p.query(`SELECT * FROM student WHERE id = '${id}'`);
+  yield this.render('point',{
+    title:r[0].name + '的点名界面',
+    user:r[0]
+  });
 });
 
 module.exports = router;

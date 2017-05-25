@@ -2,10 +2,19 @@ extends layout
 
 block content
   #app
-    .box
+    .box(v-bind:class="{active: state=='finish'}")
+      .title(v-if="state=='finish'") 已签到
       template(v-for="s in students")
         .item.zoomIn(v-if="s.state == 1")
           img.head-icon(:src="s.headicon")
+          .info 
+            p.name {{s.name}}
+            p {{s.id}}
+    .box(v-bind:class="{active: state=='finish'}" v-bind:style="{display:state=='finish' ? 'flex' : 'none'}")
+      .title(v-if="state=='finish'") 未签到
+      template(v-for="s in students")
+        .item.zoomIn(v-if="s.state == 0")
+          img.head-icon(:src="s.headicon" style="filter: grayscale(100%);")
           .info 
             p.name {{s.name}}
             p {{s.id}}
@@ -13,7 +22,8 @@ block content
     .footer
       button#start-btn(v-on:click="start" v-if="state=='start'") 开始点名
       .count-down(v-if="state=='progress'") {{count}}
-      .finish(v-if="state=='finish'") 点名结束
+      .finish(v-if="state=='finish'") 点名结束 
+        p {{yes}}人签到 {{no}}人未签到
 
 block script
   script(src="https://unpkg.com/vue/dist/vue.js")
@@ -24,7 +34,9 @@ block script
         state:'start',
         students:[],
         count:10,
-        clock:null
+        clock:null,
+        yes:0,
+        no:0
       },
       created:function(){
         this.fetchData();
@@ -34,7 +46,16 @@ block script
           this.state = 'progress';
           this.clock = setInterval(()=>{
             this.count--;
+            this.fetchData();
             if(this.count <= 0){
+              
+              this.students.map((ele,i)=>{
+                if(ele.state == '1')
+                  this.yes++;
+                else
+                  this.no++;
+              });
+
               clearInterval(this.clock);
               this.state = 'finish';
             }
