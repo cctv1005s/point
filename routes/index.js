@@ -42,4 +42,18 @@ router.get('/q/:id',function*(next){
   });
 });
 
+
+router.get('/comment',function*(){
+  var q = `select * from comment ORDER BY time DESC`;
+  var r = yield p.query(q);
+  this.body = {success:true,data:r};
+});
+
+router.post('/comment',function*(){
+  var {name,content,mac} = this.request.body;
+  var q = `INSERT INTO comment (name, mac, content, time) VALUES ('${name}', '${mac}', '${content}', '${new Date().getTime()}')`;
+  yield p.query(q);
+  this.body = {success:true};
+});
+
 module.exports = router;
